@@ -1,259 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethanol Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-3xl mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-semibold text-gray-900 flex items-center gap-2 mb-2">
+        <i class="ti ti-flask text-blue-600"></i>
+        Ethanol Calculator
+      </h1>
+      <p class="text-sm text-gray-600">
+        Estimate blood alcohol content, driving legality under Norwegian law (0.2‰ limit), and recovery time based on your personal factors.
+      </p>
+    </div>
 
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-sans); }
-.wrap { padding: 1.5rem 0; max-width: 680px; }
-h1 { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
-.subtitle { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 1.5rem; }
-.section { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
-.section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 1rem; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-.field { display: flex; flex-direction: column; gap: 6px; }
-label { font-size: 13px; color: var(--color-text-secondary); }
-.unit { font-size: 12px; color: var(--color-text-tertiary); }
-select, input[type=number] { width: 100%; }
-.btn { margin-top: 1rem; width: 100%; padding: 10px; font-size: 15px; font-weight: 500; cursor: pointer; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); color: var(--color-text-primary); transition: background 0.15s; }
-.btn:hover { background: var(--color-background-tertiary); }
-.results { display: none; }
-.results.show { display: block; }
-.metric-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 1rem; }
-.metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem; }
-.metric-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
-.metric-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
-.metric-sub { font-size: 12px; color: var(--color-text-tertiary); margin-top: 2px; }
-.status-card { border-radius: var(--border-radius-lg); border: 0.5px solid; padding: 1.25rem; margin-bottom: 1rem; }
-.status-card.safe { background: var(--color-background-success); border-color: var(--color-border-success); }
-.status-card.warn { background: var(--color-background-warning); border-color: var(--color-border-warning); }
-.status-card.danger { background: var(--color-background-danger); border-color: var(--color-border-danger); }
-.status-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
-.status-card.safe .status-title { color: var(--color-text-success); }
-.status-card.warn .status-title { color: var(--color-text-warning); }
-.status-card.danger .status-title { color: var(--color-text-danger); }
-.status-body { font-size: 13px; }
-.status-card.safe .status-body { color: var(--color-text-success); }
-.status-card.warn .status-body { color: var(--color-text-warning); }
-.status-card.danger .status-body { color: var(--color-text-danger); }
-.bar-wrap { background: var(--color-background-secondary); border-radius: 999px; height: 10px; margin: 8px 0; overflow: hidden; }
-.bar-inner { height: 100%; border-radius: 999px; transition: width 0.4s ease; }
-.bar-inner.safe { background: #1D9E75; }
-.bar-inner.warn { background: #BA7517; }
-.bar-inner.danger { background: #E24B4A; }
-.timeline { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
-.tl-row { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
-.tl-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; background: var(--color-border-secondary); }
-.tl-dot.done { background: #1D9E75; }
-.tl-dot.mid { background: #BA7517; }
-.tl-dot.late { background: #378ADD; }
-.disclaimer { font-size: 12px; color: var(--color-text-tertiary); border-top: 0.5px solid var(--color-border-tertiary); padding-top: 1rem; margin-top: 1rem; line-height: 1.6; }
-</style>
-
-<div class="wrap">
-  <h2 class="sr-only">Ethanol & recovery time calculator based on personal factors and Norwegian traffic law</h2>
-  <h1><i class="ti ti-flask" aria-hidden="true" style="font-size:20px; vertical-align:-2px; margin-right:8px;"></i>Ethanol & recovery calculator</h1>
-  <p class="subtitle">Estimate blood alcohol, driving legality under Norwegian law, and recovery time.</p>
-
-  <div class="section">
-    <div class="section-title">About you</div>
-    <div class="grid3">
-      <div class="field">
-        <label for="ethnic">Ethnic group</label>
-        <select id="ethnic">
-          <option value="asian" selected>Asian</option>
-          <option value="european">European</option>
-          <option value="american">American / other</option>
-        </select>
+    <!-- About You Section -->
+    <div class="bg-white rounded-lg border border-gray-200 p-5 mb-4">
+      <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">About You</h2>
+      <div class="grid grid-cols-3 gap-3 mb-3">
+        <div>
+          <label for="ethnic" class="block text-sm text-gray-700 mb-1.5">Ethnic group</label>
+          <select id="ethnic" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <option value="asian">Asian</option>
+            <option value="european">European</option>
+            <option value="american">American / other</option>
+          </select>
+        </div>
+        <div>
+          <label for="sex" class="block text-sm text-gray-700 mb-1.5">Biological sex</label>
+          <select id="sex" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div>
+          <label for="age" class="block text-sm text-gray-700 mb-1.5">Age <span class="text-xs text-gray-500">(years)</span></label>
+          <input type="number" id="age" value="30" min="18" max="90" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
       </div>
-      <div class="field">
-        <label for="sex">Biological sex</label>
-        <select id="sex">
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for="weight" class="block text-sm text-gray-700 mb-1.5">Weight <span class="text-xs text-gray-500">(kg)</span></label>
+          <input type="number" id="weight" value="75" min="40" max="200" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
+        <div>
+          <label for="height" class="block text-sm text-gray-700 mb-1.5">Height <span class="text-xs text-gray-500">(cm)</span></label>
+          <input type="number" id="height" value="175" min="140" max="220" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
       </div>
-      <div class="field">
-        <label for="age">Age <span class="unit">years</span></label>
-        <input type="number" id="age" value="30" min="18" max="90">
+      <div class="mt-3">
+        <span class="text-xs text-gray-600">BMI: </span>
+        <span id="bmi-display" class="text-xs font-semibold px-2 py-0.5 rounded">–</span>
       </div>
     </div>
-    <div class="grid2" style="margin-top:12px;">
-      <div class="field">
-        <label for="weight">Weight <span class="unit">kg</span></label>
-        <input type="number" id="weight" value="75" min="40" max="200">
+
+    <!-- Your Drinks Section -->
+    <div class="bg-white rounded-lg border border-gray-200 p-5 mb-4">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Your Drinks</h2>
+        <button onclick="addDrink()" class="px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors flex items-center gap-1.5">
+          <i class="ti ti-plus text-base"></i>
+          Add Drink
+        </button>
       </div>
-      <div class="field">
-        <label for="height">Height <span class="unit">cm</span></label>
-        <input type="number" id="height" value="175" min="140" max="220">
+      <div id="drinks-container" class="space-y-3 mb-4"></div>
+      <div class="border-t border-gray-200 pt-4">
+        <label for="duration" class="block text-sm text-gray-700 mb-1.5">
+          Drinking duration <span class="text-xs text-gray-500">(hours)</span>
+        </label>
+        <input 
+          type="number" 
+          id="duration" 
+          value="2" 
+          min="0" 
+          max="24" 
+          step="0.5"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+      </div>
+    </div>
+
+    <!-- Calculate Button -->
+    <button onclick="calculate()" class="w-full bg-blue-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+      Calculate
+      <i class="ti ti-arrow-right"></i>
+    </button>
+
+    <!-- Results Section -->
+    <div id="results" class="hidden mt-6 space-y-4">
+      <!-- Key Numbers -->
+      <div class="bg-white rounded-lg border border-gray-200 p-5">
+        <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Key Numbers</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="text-xs text-gray-500 mb-1">Total ethanol</div>
+            <div class="text-2xl font-semibold text-gray-900" id="r-ethanol">–</div>
+            <div class="text-xs text-gray-400 mt-0.5">grams</div>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="text-xs text-gray-500 mb-1">Peak BAC</div>
+            <div class="text-2xl font-semibold text-gray-900" id="r-bac">–</div>
+            <div class="text-xs text-gray-400 mt-0.5">‰ (g/L blood)</div>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="text-xs text-gray-500 mb-1">Clear in ~</div>
+            <div class="text-2xl font-semibold text-gray-900" id="r-cleartime">–</div>
+            <div class="text-xs text-gray-400 mt-0.5">hours total</div>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="text-xs text-gray-500 mb-1">Safe to drive in ~</div>
+            <div class="text-2xl font-semibold text-gray-900" id="r-drivetime">–</div>
+            <div class="text-xs text-gray-400 mt-0.5">hours from now</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Cards -->
+      <div id="driving-card"></div>
+      <div id="limit-card"></div>
+
+      <!-- Timeline -->
+      <div class="bg-white rounded-lg border border-gray-200 p-5">
+        <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Recovery Timeline</h2>
+        <div id="timeline" class="space-y-3"></div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <p class="text-xs text-yellow-800 leading-relaxed">
+          <strong>⚠ For reference only.</strong> These calculations are estimates based on population-average pharmacokinetic models (Widmark formula with ethnic/sex adjustments). Actual BAC varies due to food intake, hydration, medication, individual liver function, and many other factors. Do not use this tool to decide whether it is safe or legal to drive. Norwegian legal BAC limit is 0.2‰ — always err on the side of caution. If in doubt, do not drive.
+        </p>
       </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Your drink</div>
-    <div class="grid3">
-      <div class="field">
-        <label for="pct">Alcohol % <span class="unit">e.g. 40 for spirits</span></label>
-        <input type="number" id="pct" value="40" min="1" max="96" step="0.5">
-      </div>
-      <div class="field">
-        <label for="vol">Volume <span class="unit">ml</span></label>
-        <input type="number" id="vol" value="500" min="10" max="5000">
-      </div>
-      <div class="field">
-        <label for="dur">Drink duration <span class="unit">minutes</span></label>
-        <input type="number" id="dur" value="120" min="10" max="480">
-      </div>
-    </div>
-  </div>
+  <script>
+    // State management
+    let drinks = [];
+    let drinkIdCounter = 0;
 
-  <button class="btn" onclick="calculate()">Calculate <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+    // Initialize app
+    function init() {
+      loadFromLocalStorage();
+      if (drinks.length === 0) {
+        addDrink();
+      } else {
+        renderDrinks();
+      }
+    }
 
-  <div class="results" id="results">
+    // LocalStorage functions
+    function saveToLocalStorage() {
+      const data = {
+        ethnic: document.getElementById('ethnic').value,
+        sex: document.getElementById('sex').value,
+        age: document.getElementById('age').value,
+        weight: document.getElementById('weight').value,
+        height: document.getElementById('height').value,
+        duration: document.getElementById('duration').value,
+        drinks: drinks
+      };
+      localStorage.setItem('ethanolCalculatorData', JSON.stringify(data));
+    }
 
-    <div class="section" style="margin-top:1rem;">
-      <div class="section-title">Key numbers</div>
-      <div class="metric-row">
-        <div class="metric">
-          <div class="metric-label">Total ethanol</div>
-          <div class="metric-value" id="r-ethanol">–</div>
-          <div class="metric-sub">grams</div>
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem('ethanolCalculatorData');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          document.getElementById('ethnic').value = data.ethnic || 'asian';
+          document.getElementById('sex').value = data.sex || 'male';
+          document.getElementById('age').value = data.age || 30;
+          document.getElementById('weight').value = data.weight || 75;
+          document.getElementById('height').value = data.height || 175;
+          document.getElementById('duration').value = data.duration || 2;
+          drinks = data.drinks || [];
+          drinkIdCounter = drinks.length > 0 ? Math.max(...drinks.map(d => d.id)) + 1 : 0;
+        } catch (e) {
+          console.error('Failed to load data from localStorage', e);
+        }
+      }
+    }
+
+    // Drink management
+    function addDrink() {
+      const drink = {
+        id: drinkIdCounter++,
+        pct: 40,
+        vol: 500
+      };
+      drinks.push(drink);
+      renderDrinks();
+      saveToLocalStorage();
+    }
+
+    function removeDrink(id) {
+      drinks = drinks.filter(d => d.id !== id);
+      if (drinks.length === 0) {
+        addDrink();
+      } else {
+        renderDrinks();
+        saveToLocalStorage();
+      }
+    }
+
+    function updateDrink(id, field, value) {
+      const drink = drinks.find(d => d.id === id);
+      if (drink) {
+        drink[field] = parseFloat(value) || 0;
+        saveToLocalStorage();
+      }
+    }
+
+    function renderDrinks() {
+      const container = document.getElementById('drinks-container');
+      container.innerHTML = drinks.map((drink, index) => `
+        <div class="border border-gray-200 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm font-medium text-gray-700">Drink ${index + 1}</span>
+            ${drinks.length > 1 ? `
+              <button onclick="removeDrink(${drink.id})" class="text-red-600 hover:text-red-700 transition-colors">
+                <i class="ti ti-trash text-lg"></i>
+              </button>
+            ` : ''}
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-sm text-gray-700 mb-1.5">
+                Alcohol %
+                <span class="text-xs text-gray-500 block">e.g. 40 for spirits</span>
+              </label>
+              <input 
+                type="number" 
+                value="${drink.pct}" 
+                min="1" 
+                max="96" 
+                step="0.5"
+                onchange="updateDrink(${drink.id}, 'pct', this.value)"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+            </div>
+            <div>
+              <label class="block text-sm text-gray-700 mb-1.5">
+                Volume
+                <span class="text-xs text-gray-500 block">(ml)</span>
+              </label>
+              <input 
+                type="number" 
+                value="${drink.vol}" 
+                min="10" 
+                max="5000"
+                onchange="updateDrink(${drink.id}, 'vol', this.value)"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+            </div>
+          </div>
         </div>
-        <div class="metric">
-          <div class="metric-label">Peak BAC</div>
-          <div class="metric-value" id="r-bac">–</div>
-          <div class="metric-sub">‰ (g/L blood)</div>
+      `).join('');
+    }
+
+    // BMI calculation and display
+    function updateBMI() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const height = parseFloat(document.getElementById('height').value);
+      const bmiDisplay = document.getElementById('bmi-display');
+      
+      if (weight && height) {
+        const bmi = weight / ((height / 100) ** 2);
+        bmiDisplay.textContent = bmi.toFixed(1);
+        
+        // Color coding: red (<18.5), green (18.5-24.9), purple (≥25)
+        bmiDisplay.className = 'text-xs font-semibold px-2 py-0.5 rounded';
+        if (bmi < 18.5) {
+          bmiDisplay.className += ' bg-red-100 text-red-700';
+        } else if (bmi <= 24.9) {
+          bmiDisplay.className += ' bg-green-100 text-green-700';
+        } else {
+          bmiDisplay.className += ' bg-purple-100 text-purple-700';
+        }
+      } else {
+        bmiDisplay.textContent = '–';
+        bmiDisplay.className = 'text-xs font-semibold px-2 py-0.5 rounded';
+      }
+    }
+
+    // Save personal info on change
+    ['ethnic', 'sex', 'age', 'weight', 'height', 'duration'].forEach(id => {
+      document.getElementById(id).addEventListener('change', saveToLocalStorage);
+    });
+    
+    // Update BMI on weight/height change
+    ['weight', 'height'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateBMI);
+    });
+
+    // Calculate function
+    function calculate() {
+      const ethnic = document.getElementById('ethnic').value;
+      const sex = document.getElementById('sex').value;
+      const age = parseFloat(document.getElementById('age').value) || 30;
+      const weight = parseFloat(document.getElementById('weight').value) || 75;
+      const height = parseFloat(document.getElementById('height').value) || 175;
+      const duration = parseFloat(document.getElementById('duration').value) || 0;
+
+      const bmi = weight / ((height / 100) ** 2);
+
+      // Calculate total ethanol from all drinks
+      let total_ethanol_g = 0;
+      
+      drinks.forEach(drink => {
+        const ethanol_g = drink.vol * (drink.pct / 100) * 0.789;
+        total_ethanol_g += ethanol_g;
+      });
+
+      let r = sex === 'male' ? 0.68 : 0.55;
+      if (ethnic === 'asian') r *= 0.92;
+      if (bmi > 30) r *= 0.95;
+      if (bmi < 20) r *= 1.03;
+
+      let metabolismRate = 0.15;
+      if (ethnic === 'asian') metabolismRate *= 0.80;
+      if (sex === 'female') metabolismRate *= 0.90;
+      if (age > 60) metabolismRate *= 0.88;
+
+      const metabolized_during = metabolismRate * duration;
+      const peak_ethanol = Math.max(0, total_ethanol_g - metabolized_during);
+      const peak_bac = peak_ethanol / (weight * r);
+
+      const hours_to_clear = peak_bac > 0 ? peak_bac / metabolismRate : 0;
+
+      const NO_LIMIT = 0.2;
+      const hours_to_legal = peak_bac > NO_LIMIT ? (peak_bac - NO_LIMIT) / metabolismRate : 0;
+
+      const safeThreshold = sex === 'male' ? 40 : 30;
+      const safeThresholdAsian = ethnic === 'asian' ? (sex === 'male' ? 28 : 20) : safeThreshold;
+
+      document.getElementById('r-ethanol').textContent = total_ethanol_g.toFixed(1);
+      document.getElementById('r-bac').textContent = peak_bac.toFixed(2);
+      document.getElementById('r-cleartime').textContent = hours_to_clear.toFixed(1);
+      document.getElementById('r-drivetime').textContent = hours_to_legal > 0 ? hours_to_legal.toFixed(1) : '< 1';
+
+      // Driving status card
+      const drivingCard = document.getElementById('driving-card');
+      if (peak_bac <= NO_LIMIT) {
+        drivingCard.className = 'bg-green-50 border border-green-200 rounded-lg p-5';
+        drivingCard.innerHTML = `
+          <div class="flex items-center gap-2 text-green-800 font-medium mb-2">
+            <i class="ti ti-steering-wheel"></i>
+            Likely within Norwegian driving limit (0.2‰)
+          </div>
+          <div class="text-sm text-green-700">
+            Estimated peak BAC is <strong>${peak_bac.toFixed(2)}‰</strong> — below the 0.2‰ legal limit. However, BAC may still be rising if you just finished drinking. Wait and do not take risks.
+          </div>
+        `;
+      } else {
+        drivingCard.className = 'bg-red-50 border border-red-200 rounded-lg p-5';
+        drivingCard.innerHTML = `
+          <div class="flex items-center gap-2 text-red-800 font-medium mb-2">
+            <i class="ti ti-steering-wheel"></i>
+            Over the Norwegian driving limit (0.2‰)
+          </div>
+          <div class="text-sm text-red-700">
+            Estimated peak BAC is <strong>${peak_bac.toFixed(2)}‰</strong> — <strong>${(peak_bac - NO_LIMIT).toFixed(2)}‰ above</strong> the legal limit of 0.2‰. Do not drive. You may need approximately <strong>${hours_to_legal.toFixed(1)} hours</strong> before it is safe to consider driving.
+          </div>
+        `;
+      }
+
+      // Health threshold card
+      const limitCard = document.getElementById('limit-card');
+      // const pct_of_safe = Math.min(200, (total_ethanol_g / safeThresholdAsian) * 100);
+      const pct_of_safe = (total_ethanol_g / safeThresholdAsian) * 100;
+      const barW = Math.min(100, pct_of_safe);
+
+      if (total_ethanol_g <= safeThresholdAsian) {
+        limitCard.className = 'bg-green-50 border border-green-200 rounded-lg p-5';
+        limitCard.innerHTML = `
+          <div class="flex items-center gap-2 text-green-800 font-medium mb-2">
+            <i class="ti ti-heart"></i>
+            Within recommended safe threshold
+          </div>
+          <div class="text-sm text-green-700">
+            ${total_ethanol_g.toFixed(1)} g of ethanol vs. recommended ≤ ${safeThresholdAsian} g for your profile.
+            <div class="bg-gray-200 rounded-full h-2.5 my-2 overflow-hidden">
+              <div class="bg-green-600 h-2.5 rounded-full transition-all duration-300" style="width:${barW}%"></div>
+            </div>
+            You're at ${pct_of_safe.toFixed(0)}% of the recommended limit. Hangover risk is low if you pace yourself and stay hydrated.
+          </div>
+        `;
+      } else if (total_ethanol_g <= safeThresholdAsian * 1.5) {
+        limitCard.className = 'bg-yellow-50 border border-yellow-200 rounded-lg p-5';
+        limitCard.innerHTML = `
+          <div class="flex items-center gap-2 text-yellow-800 font-medium mb-2">
+            <i class="ti ti-alert-triangle"></i>
+            Above recommended safe threshold
+          </div>
+          <div class="text-sm text-yellow-700">
+            ${total_ethanol_g.toFixed(1)} g of ethanol — ${(total_ethanol_g - safeThresholdAsian).toFixed(1)} g over the recommended ≤ ${safeThresholdAsian} g for your profile.
+            <div class="bg-gray-200 rounded-full h-2.5 my-2 overflow-hidden">
+              <div class="bg-yellow-600 h-2.5 rounded-full transition-all duration-300" style="width:${barW}%"></div>
+            </div>
+            You're at ${pct_of_safe.toFixed(0)}% of the limit. Hangover symptoms and physiological stress are likely. Drink water, eat well, and plan rest.
+          </div>
+        `;
+      } else {
+        limitCard.className = 'bg-red-50 border border-red-200 rounded-lg p-5';
+        limitCard.innerHTML = `
+          <div class="flex items-center gap-2 text-red-800 font-medium mb-2">
+            <i class="ti ti-alert-circle"></i>
+            Significantly over the safe threshold
+          </div>
+          <div class="text-sm text-red-700">
+            ${total_ethanol_g.toFixed(1)} g of ethanol — ${(total_ethanol_g - safeThresholdAsian).toFixed(1)} g over the recommended ≤ ${safeThresholdAsian} g for your profile.
+            <div class="bg-gray-200 rounded-full h-2.5 my-2 overflow-hidden">
+              <div class="bg-red-600 h-2.5 rounded-full transition-all duration-300" style="width:100%"></div>
+            </div>
+            You're at ${pct_of_safe.toFixed(0)}% of the limit. High risk of hangover, liver stress, dehydration, and impaired judgment. Serious health caution.
+          </div>
+        `;
+      }
+
+      // Timeline
+      const now = new Date();
+      const clearAt = new Date(now.getTime() + hours_to_clear * 3600000);
+      const halfAt = new Date(now.getTime() + (hours_to_clear / 2) * 3600000);
+      const legalAt = hours_to_legal > 0 ? new Date(now.getTime() + hours_to_legal * 3600000) : null;
+
+      const fmt = (d) => d.toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
+
+      let tlHTML = `
+        <div class="flex items-start gap-3">
+          <div class="w-2 h-2 rounded-full bg-green-600 mt-1.5 flex-shrink-0"></div>
+          <div class="text-sm text-gray-700">
+            <strong>Now</strong> — peak BAC ~${peak_bac.toFixed(2)}‰. Avoid driving, heavy exertion, or hot baths.
+          </div>
         </div>
-        <div class="metric">
-          <div class="metric-label">Clear in ~</div>
-          <div class="metric-value" id="r-cleartime">–</div>
-          <div class="metric-sub">hours total</div>
+      `;
+
+      if (legalAt) {
+        tlHTML += `
+          <div class="flex items-start gap-3">
+            <div class="w-2 h-2 rounded-full bg-yellow-600 mt-1.5 flex-shrink-0"></div>
+            <div class="text-sm text-gray-700">
+              <strong>~${fmt(legalAt)}</strong> (in ${hours_to_legal.toFixed(1)}h) — BAC estimated at or below 0.2‰ (Norwegian driving limit). Still impaired for fine motor tasks.
+            </div>
+          </div>
+        `;
+      }
+
+      tlHTML += `
+        <div class="flex items-start gap-3">
+          <div class="w-2 h-2 rounded-full bg-yellow-600 mt-1.5 flex-shrink-0"></div>
+          <div class="text-sm text-gray-700">
+            <strong>~${fmt(halfAt)}</strong> (in ${(hours_to_clear / 2).toFixed(1)}h) — Halfway through metabolism. Hydrate, eat protein and carbs.
+          </div>
         </div>
-        <div class="metric">
-          <div class="metric-label">Safe to drive in ~</div>
-          <div class="metric-value" id="r-drivetime">–</div>
-          <div class="metric-sub">hours from now</div>
+        <div class="flex items-start gap-3">
+          <div class="w-2 h-2 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+          <div class="text-sm text-gray-700">
+            <strong>~${fmt(clearAt)}</strong> (in ${hours_to_clear.toFixed(1)}h) — Ethanol largely cleared. Recovery nearly complete if intake was moderate.
+          </div>
         </div>
-      </div>
-    </div>
+      `;
 
-    <div id="driving-card" class="status-card"></div>
-    <div id="limit-card" class="status-card"></div>
+      document.getElementById('timeline').innerHTML = tlHTML;
+      document.getElementById('results').classList.remove('hidden');
+      document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-    <div class="section">
-      <div class="section-title">Recovery timeline</div>
-      <div class="timeline" id="timeline"></div>
-    </div>
-
-    <div class="disclaimer">
-      <strong>⚠ For reference only.</strong> These calculations are estimates based on population-average pharmacokinetic models (Widmark formula with ethnic/sex adjustments). Actual BAC varies due to food intake, hydration, medication, individual liver function, and many other factors. Do not use this tool to decide whether it is safe or legal to drive. Norwegian legal BAC limit is 0.2‰ — always err on the side of caution. If in doubt, do not drive.
-    </div>
-  </div>
-</div>
-
-<script>
-function calculate() {
-  const ethnic = document.getElementById('ethnic').value;
-  const sex = document.getElementById('sex').value;
-  const age = parseFloat(document.getElementById('age').value) || 30;
-  const weight = parseFloat(document.getElementById('weight').value) || 75;
-  const height = parseFloat(document.getElementById('height').value) || 175;
-  const pct = parseFloat(document.getElementById('pct').value) || 40;
-  const vol = parseFloat(document.getElementById('vol').value) || 500;
-  const dur = parseFloat(document.getElementById('dur').value) || 120;
-
-  const bmi = weight / ((height / 100) ** 2);
-
-  const ethanol_g = vol * (pct / 100) * 0.789;
-
-  let r = sex === 'male' ? 0.68 : 0.55;
-  if (ethnic === 'asian') r *= 0.92;
-  if (bmi > 30) r *= 0.95;
-  if (bmi < 20) r *= 1.03;
-
-  let metabolismRate = 0.15;
-  if (ethnic === 'asian') metabolismRate *= 0.80;
-  if (sex === 'female') metabolismRate *= 0.90;
-  if (age > 60) metabolismRate *= 0.88;
-
-  const dur_h = dur / 60;
-  const metabolized_during = metabolismRate * dur_h;
-  const peak_ethanol = Math.max(0, ethanol_g - metabolized_during);
-  const peak_bac = peak_ethanol / (weight * r);
-
-  const hours_to_clear = peak_bac > 0 ? peak_bac / metabolismRate : 0;
-
-  const NO_LIMIT = 0.2;
-  const hours_to_legal = peak_bac > NO_LIMIT ? (peak_bac - NO_LIMIT) / metabolismRate : 0;
-
-  const safeThreshold = sex === 'male' ? 40 : 30;
-  const safeThresholdAsian = ethnic === 'asian' ? (sex === 'male' ? 28 : 20) : safeThreshold;
-
-  document.getElementById('r-ethanol').textContent = ethanol_g.toFixed(1);
-  document.getElementById('r-bac').textContent = peak_bac.toFixed(2);
-  document.getElementById('r-cleartime').textContent = hours_to_clear.toFixed(1);
-  document.getElementById('r-drivetime').textContent = hours_to_legal > 0 ? hours_to_legal.toFixed(1) : '< 1';
-
-  const drivingCard = document.getElementById('driving-card');
-  if (peak_bac <= NO_LIMIT) {
-    drivingCard.className = 'status-card safe';
-    drivingCard.innerHTML = `<div class="status-title"><i class="ti ti-steering-wheel" aria-hidden="true"></i> Likely within Norwegian driving limit (0.2‰)</div>
-      <div class="status-body">Estimated peak BAC is <strong>${peak_bac.toFixed(2)}‰</strong> — below the 0.2‰ legal limit. However, BAC may still be rising if you just finished drinking. Wait and do not take risks.</div>`;
-  } else {
-    drivingCard.className = 'status-card danger';
-    drivingCard.innerHTML = `<div class="status-title"><i class="ti ti-steering-wheel" aria-hidden="true"></i> Over the Norwegian driving limit (0.2‰)</div>
-      <div class="status-body">Estimated peak BAC is <strong>${peak_bac.toFixed(2)}‰</strong> — <strong>${(peak_bac - NO_LIMIT).toFixed(2)}‰ above</strong> the legal limit of 0.2‰. Do not drive. You may need approximately <strong>${hours_to_legal.toFixed(1)} hours</strong> before it is safe to consider driving.</div>`;
-  }
-
-  const limitCard = document.getElementById('limit-card');
-  const pct_of_safe = Math.min(200, (ethanol_g / safeThresholdAsian) * 100);
-  const barClass = pct_of_safe <= 100 ? 'safe' : pct_of_safe <= 150 ? 'warn' : 'danger';
-  const barW = Math.min(100, pct_of_safe);
-
-  if (ethanol_g <= safeThresholdAsian) {
-    limitCard.className = 'status-card safe';
-    limitCard.innerHTML = `<div class="status-title"><i class="ti ti-heart" aria-hidden="true"></i> Within recommended safe threshold</div>
-      <div class="status-body">
-        ${ethanol_g.toFixed(1)} g of ethanol vs. recommended ≤ ${safeThresholdAsian} g for your profile.<br>
-        <div class="bar-wrap"><div class="bar-inner safe" style="width:${barW.toFixed(0)}%"></div></div>
-        You're at ${pct_of_safe.toFixed(0)}% of the recommended limit. Hangover risk is low if you pace yourself and stay hydrated.
-      </div>`;
-  } else if (ethanol_g <= safeThresholdAsian * 1.5) {
-    limitCard.className = 'status-card warn';
-    limitCard.innerHTML = `<div class="status-title"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Above recommended safe threshold</div>
-      <div class="status-body">
-        ${ethanol_g.toFixed(1)} g of ethanol — ${(ethanol_g - safeThresholdAsian).toFixed(1)} g over the recommended ≤ ${safeThresholdAsian} g for your profile.<br>
-        <div class="bar-wrap"><div class="bar-inner warn" style="width:${barW.toFixed(0)}%"></div></div>
-        You're at ${pct_of_safe.toFixed(0)}% of the limit. Hangover symptoms and physiological stress are likely. Drink water, eat well, and plan rest.
-      </div>`;
-  } else {
-    limitCard.className = 'status-card danger';
-    limitCard.innerHTML = `<div class="status-title"><i class="ti ti-alert-circle" aria-hidden="true"></i> Significantly over the safe threshold</div>
-      <div class="status-body">
-        ${ethanol_g.toFixed(1)} g of ethanol — ${(ethanol_g - safeThresholdAsian).toFixed(1)} g over the recommended ≤ ${safeThresholdAsian} g for your profile.<br>
-        <div class="bar-wrap"><div class="bar-inner danger" style="width:100%"></div></div>
-        You're at ${pct_of_safe.toFixed(0)}% of the limit. High risk of hangover, liver stress, dehydration, and impaired judgment. Serious health caution.
-      </div>`;
-  }
-
-  const now = new Date();
-  const clearAt = new Date(now.getTime() + hours_to_clear * 3600000);
-  const halfAt = new Date(now.getTime() + (hours_to_clear / 2) * 3600000);
-  const legalAt = hours_to_legal > 0 ? new Date(now.getTime() + hours_to_legal * 3600000) : null;
-
-  const fmt = (d) => d.toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
-
-  let tlHTML = `
-    <div class="tl-row"><div class="tl-dot done"></div><div><strong>Now</strong> — peak BAC ~${peak_bac.toFixed(2)}‰. Avoid driving, heavy exertion, or hot baths.</div></div>`;
-
-  if (legalAt) {
-    tlHTML += `<div class="tl-row"><div class="tl-dot mid"></div><div><strong>~${fmt(legalAt)}</strong> (in ${hours_to_legal.toFixed(1)}h) — BAC estimated at or below 0.2‰ (Norwegian driving limit). Still impaired for fine motor tasks.</div></div>`;
-  }
-
-  tlHTML += `<div class="tl-row"><div class="tl-dot mid"></div><div><strong>~${fmt(halfAt)}</strong> (in ${(hours_to_clear / 2).toFixed(1)}h) — Halfway through metabolism. Hydrate, eat protein and carbs.</div></div>`;
-  tlHTML += `<div class="tl-row"><div class="tl-dot late"></div><div><strong>~${fmt(clearAt)}</strong> (in ${hours_to_clear.toFixed(1)}h) — Ethanol largely cleared. Recovery nearly complete if intake was moderate.</div></div>`;
-
-  document.getElementById('timeline').innerHTML = tlHTML;
-  document.getElementById('results').className = 'results show';
-  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-</script>
+    // Initialize on load
+    init();
+    updateBMI();
+  </script>
+</body>
+</html>
